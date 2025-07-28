@@ -1,8 +1,8 @@
 import math
 
-VERTIPORT_SIDE = 144 #ft archer midnight
+VERTIPORT_SIDE = 48 * 3 #ft archer midnight - safety area = 3 times wingspan
 #SAFTEY_SIDE = 25 #ft <- include in the future
-GATE_SIDE = 60 #ft wingspan 48ft <- change to larger porportion
+GATE_SIDE = 48 * 1.5 #ft wingspan 48ft <- change to larger porportion (just driving)
 TAKELAND_TIME = 2 #min
 #to make it easier for myself make it a multiple of 2
 ATGATE_TIME = 6 #min
@@ -16,8 +16,6 @@ totalGates = 0 #check total # of vertiports
 vertiports = 0
 numFlights = 0 #flights per hour 
 
-landTakeTime = 2 #min
-gateTime = 5 #min
 waitTime = 0 #min
 
 #>>>>>check if long/wide enough for this config
@@ -39,7 +37,6 @@ def maxGateToPadRatio(width, length):
 
 #find how much wait time there would be
 #based on assumption of gate time (6) & landTake time (2)
-#>>>>>add time for being further away
 def calculateWaitTime(gateToPadRatio):
     waitTime = 0
     if gateToPadRatio > 3:
