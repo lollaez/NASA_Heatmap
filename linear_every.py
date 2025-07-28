@@ -2,13 +2,13 @@ import math
 
 VERTIPORT_SIDE = 144 #ft archer midnight
 #SAFTEY_SIDE = 25 #ft <- include in the future
-GATE_SIDE = 55 #ft wingspan 48ft <- change to larger porportion
+GATE_SIDE = 60 #ft wingspan 48ft <- change to larger porportion
 TAKELAND_TIME = 2 #min
 #to make it easier for myself make it a multiple of 2
 ATGATE_TIME = 6 #min
 
-areaWidth = 500 #ft
-areaLength = 1000 #ft
+areaWidth = 436#ft
+areaLength = 617 #ft
 
 gatesToPad = 0 #ratio of pads to each gate
 maybeDouble = False #double # of vertiports & gates
@@ -88,6 +88,7 @@ def checkVertiports(width, length, gatesToPad):
 def calculateFlights(width, length, vertiports, gateToPadRatio):
     #>>>>>turn into dictionary with corresponding ratios eventually (aka a table with wait time, flights, ratio, vertiports)
     gateToPadRatioEvery = []
+    vertiportsEvery = []
     numFlightsEvery = []
     waitTime = 0
     waitTimeEvery = []
@@ -106,13 +107,16 @@ def calculateFlights(width, length, vertiports, gateToPadRatio):
         waitTimeEvery.append(waitTime)
 
         vertiports = checkVertiports(width, length, gateToPadRatio)
+        vertiportsEvery.append(vertiports)
+
         cycleTime = landTakeTime + waitTime
+
         numFlights = (60/cycleTime) * (vertiports * gateToPadRatio) * Double
         numFlightsEvery.append(numFlights)
 
         gateToPadRatio -= 1
     
-    return(gateToPadRatioEvery, waitTimeEvery, numFlightsEvery)
+    return(gateToPadRatioEvery, waitTimeEvery, vertiportsEvery, numFlightsEvery)
 
 #find largest throughput & corresponding gateToPadRatio
 
@@ -120,25 +124,27 @@ def calculateFlights(width, length, vertiports, gateToPadRatio):
 
 
 
+print(f"Area Width: {areaWidth}, Area Length: {areaLength}")
 if findLongerSide(areaWidth, areaLength) == True:
-    print("Width Longer OR Same")
+    print("Longer Side: Width OR Same")
 else:
-    print("Length Longer")
+    print("Longer Side: Length")
 
 gatesToPad = maxGateToPadRatio(areaWidth, areaLength)
 print("Maxium Gate To Pad Ratio: " + str(gatesToPad))
 
-waitTime = calculateWaitTime(gatesToPad)
-print("Wait Time for " + str(gatesToPad) + " Ratio: " + str(waitTime))
+# waitTime = calculateWaitTime(gatesToPad)
+# print("Wait Time for " + str(gatesToPad) + " Ratio: " + str(waitTime))
 
 maybeDouble = checkMaybeDouble(areaWidth, areaLength)
 print("Short Side Long Enough To Double: " + str(maybeDouble))
 
-vertiports = checkVertiports(areaWidth, areaLength, gatesToPad)
-print("Total # Vertiports: " + str(vertiports))
+# vertiports = checkVertiports(areaWidth, areaLength, gatesToPad)
+# print("Total # Vertiports: " + str(vertiports))
 
-gatesToPad, waitTime, numFlights = calculateFlights(areaWidth, areaLength, vertiports, gatesToPad)
+gatesToPad, waitTime, vertiports, numFlights = calculateFlights(areaWidth, areaLength, vertiports, gatesToPad)
 print(f"Gate To Pad Ratios: {gatesToPad}")
 print(f"Wait Times: {waitTime}")
+print(f"Vertiports: {vertiports}")
 print(f"Number of Flights Per Hour: {numFlights}")
 
