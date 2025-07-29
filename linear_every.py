@@ -5,8 +5,8 @@ VERTIPORT_SIDE = 48 * 3 #ft archer midnight - safety area = 3 times wingspan
 GATE_SIDE = 48 * 1.5 #ft wingspan 48ft <- change to larger porportion (just driving)
 TAKELAND_TIME = 2 #min
 
-areaWidth = 500#ft
-areaLength = 122 #ft
+areaWidth = 367#ft
+areaLength = 150 #ft
 
 gatesToPad = 0 #ratio of pads to each gate
 maybeDouble = False #double # of vertiports & gates
@@ -17,6 +17,11 @@ numFlights = 0 #flights per hour
 waitTime = 0 #min
 
 #>>>>>check if long/wide enough for this config
+def check_area_linear(width, length):
+    if width >= (VERTIPORT_SIDE + GATE_SIDE) and length >= (VERTIPORT_SIDE + GATE_SIDE):
+        return(True)
+    else:
+        return(False)
 
 #if width is longer, this function returns "True"
 def findLongerSide(width, length):
@@ -132,21 +137,24 @@ if findLongerSide(areaWidth, areaLength) == True:
 else:
     print("Longer Side: Length")
 
-gatesToPad = maxGateToPadRatio(areaWidth, areaLength)
-print("Maxium Gate To Pad Ratio: " + str(gatesToPad))
+if check_area_linear(areaWidth, areaLength) == True:
+    gatesToPad = maxGateToPadRatio(areaWidth, areaLength)
+    print("Maximum Gate To Pad Ratio: " + str(gatesToPad))
 
-# waitTime = calculateWaitTime(gatesToPad)
-# print("Wait Time for " + str(gatesToPad) + " Ratio: " + str(waitTime))
+    # waitTime = calculateWaitTime(gatesToPad)
+    # print("Wait Time for " + str(gatesToPad) + " Ratio: " + str(waitTime))
 
-maybeDouble = checkMaybeDouble(areaWidth, areaLength)
-print("Short Side Long Enough To Double: " + str(maybeDouble))
+    maybeDouble = checkMaybeDouble(areaWidth, areaLength)
+    print("Short Side Long Enough To Double: " + str(maybeDouble))
 
-# vertiports = checkVertiports(areaWidth, areaLength, gatesToPad)
-# print("Total # Vertiports: " + str(vertiports))
+    # vertiports = checkVertiports(areaWidth, areaLength, gatesToPad)
+    # print("Total # Vertiports: " + str(vertiports))
 
-gatesToPad, waitTime, vertiports, numFlights = calculateFlights(areaWidth, areaLength, vertiports, gatesToPad)
-print(f"Gate To Pad Ratios: {gatesToPad}")
-print(f"Wait Times: {waitTime}")
-print(f"Vertiports: {vertiports}")
-print(f"Number of Flights Per Hour: {numFlights}")
+    gatesToPad, waitTime, vertiports, numFlights = calculateFlights(areaWidth, areaLength, vertiports, gatesToPad)
+    print(f"Gate To Pad Ratios: {gatesToPad}")
+    print(f"Wait Times: {waitTime}")
+    print(f"Vertiports: {vertiports}")
+    print(f"Number of Flights Per Hour: {numFlights}")
+else:
+    print("Area Not Large Enough for Linear")
 
