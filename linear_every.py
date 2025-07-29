@@ -39,9 +39,15 @@ def maxGateToPadRatio(width, length):
 #based on assumption of gate time (6) & landTake time (2)
 def calculateWaitTime(gateToPadRatio):
     waitTime = 0
-    if gateToPadRatio > 3:
-        #adds 2 minute for every extra gate
-        waitTime += 2 * (gateToPadRatio - 3)
+    if gateToPadRatio == 2:
+        #for every 2 trips, 2 minute wait time in gate
+        waitTime += 2/2
+    elif gateToPadRatio == 3:
+        #for every 3 trips, 2 minutes is added
+        waitTime += 2/3
+    elif gateToPadRatio > 3:
+        #add 4 minutes for every gate after the 3rd gate
+        waitTime += (4 * (gateToPadRatio - 3)) + 2
     else:
         waitTime = 0
     return(waitTime)
@@ -97,18 +103,19 @@ def calculateFlights(width, length, vertiports, gateToPadRatio):
     else:
         Double = 1
 
-    while gateToPadRatio > 0:
+    #greater than 1, because 1 gate would be pointless
+    while gateToPadRatio > 1:
         gateToPadRatioEvery.append(gateToPadRatio)
 
         waitTime = calculateWaitTime(gateToPadRatio)
         waitTimeEvery.append(waitTime)
 
-        vertiports = checkVertiports(width, length, gateToPadRatio)
+        vertiports = checkVertiports(width, length, gateToPadRatio) * Double
         vertiportsEvery.append(vertiports)
 
         cycleTime = landTakeTime + waitTime
 
-        numFlights = (60/cycleTime) * (vertiports * gateToPadRatio) * Double
+        numFlights = (60/cycleTime) * (vertiports * gateToPadRatio)
         numFlightsEvery.append(numFlights)
 
         gateToPadRatio -= 1

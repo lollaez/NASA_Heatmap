@@ -6,75 +6,91 @@ import math
 #Include different configurations
 #Include travel time between different parts
 
-area_width = 400 #ft
-area_length = 400 #ft
+area_width = 436 #ft
+area_length = 617 #ft
 flight_time = 10 #min
-#an air taxi can be on each section at the same time so the total time will be shorter (pickup/droff off longest)
-flight_time_triple = 6 #min
+#2 gates, one gate no wait time, second gate 4 mins due to sitting in gate
+flight_time_triple = 2 + 4/2 #min
 
 #drop-off/pick-up can be smaller because it does not need the safety area (Double check w/research)
-VERTIPORT_WIDTH_TRIPLE = 100 + 50 + 100 #ft
-VERTIPORT_WIDTH = 100 #ft
-#regular vertiport size + waiting area
-VERTIPORT_LENGTH = 100 + 10 #ft
+VERTIPORT_SIDE = 144 #ft
+GATE_SIDE = 72
 #area = area_length * area_width
 
 #checking that the given area is big enough for a vertiport
-def check_area(width, length):
-    if width >= VERTIPORT_WIDTH and length >= VERTIPORT_WIDTH:
-        if width >= VERTIPORT_LENGTH or length >= VERTIPORT_LENGTH:
-            #print("Large enough for vertiport and waiting area")
+def check_area_single(width, length):
+    if width >= VERTIPORT_SIDE and length >= VERTIPORT_SIDE:
+        return(True)
+    else:
+        return(False)
+
+#width needs to be longer 
+def check_area_triple(width, length):
+    if width >= VERTIPORT_SIDE and length >= VERTIPORT_SIDE:
+        if width >= ((VERTIPORT_SIDE * 2) + GATE_SIDE) or length >= width >= ((VERTIPORT_SIDE * 2) + GATE_SIDE):
             return(True)
         else:
-            #print("Only Large enough for vertiport")
             return(False)
     else:
-        #print("Not large enough for a vertiport")
         return(False)
+
+#checks if short side is long enough to double, can only double because it wouldn't make sense otherwise
+def double_single(width, length):
+    if width >= length:
+        if width >= 2 * VERTIPORT_SIDE:
+            return(True)
+        else:
+            return(False)
+    else:
+        if length >= 2 * VERTIPORT_SIDE:
+            return(True)
+        else:
+            return(False)
 
 #calculate number of vertiports with one area for landing, dropoff, & takeoff
 def calculate_vertiports_single(width, length):
     #find the longer side
     if width >= length:
-    #Make ony 100 x 110 ft boxes of vertiports and not include excess areas
-        number_width = math.floor(width/VERTIPORT_LENGTH)
-        number_length = math.floor(length/VERTIPORT_WIDTH)
-        number_vertiports = number_width * number_length
-        return(number_vertiports)
+    #Make ony 100 x 100 ft boxes of vertiports and not include excess areas
+        number_width = math.floor(width/VERTIPORT_SIDE)
+        #double?
+        if double_single(width, length) == True:
+            number_vertiports = number_width * 2
+        else:
+            number_vertiports = number_width
     else:
-        number_width = math.floor(width/VERTIPORT_WIDTH)
-        number_length = math.floor(length/VERTIPORT_LENGTH)
-        number_vertiports = number_width * number_length
-        return(number_vertiports)
+        number_length = math.floor(length/VERTIPORT_SIDE)
+        if double_single(width, length) == True:
+            number_vertiports = number_length * 2
+        else:
+            number_vertiports = number_length
+    return(number_vertiports)
     
 #calculate number of vertiports with different area for landing, dropoff, & takeoff
 def calculate_vertiports_triple(width, length):
     #find the longer side
-    if length >= width:
+    if width >= length:
     #Make ony 100 x 110 ft boxes of vertiports and not include excess areas
-        number_width = math.floor(width/VERTIPORT_LENGTH)
-        number_length = math.floor(length/(VERTIPORT_WIDTH_TRIPLE))
-        number_vertiports = number_width * number_length
-        return(number_vertiports)
+        number_vertiports = math.floor(width/VERTIPORT_SIDE)
     else:
-        number_width = math.floor((width/VERTIPORT_WIDTH_TRIPLE))
-        number_length = math.floor(length/VERTIPORT_LENGTH)
-        number_vertiports = number_width * number_length
-        return(number_vertiports)
+        number_vertiports = math.floor(length/VERTIPORT_SIDE)
+    return(number_vertiports)
     
 #calculates flights per hour based on minutes per flight
 def calculate_flights(vertiports, time):
     flights = 60/time * vertiports
     return(flights)
 
+print(f"Area Width: {area_width}, Area Length: {area_length}")
 
-if check_area(area_width, area_length) == True:
-    print("Given The Same Area:")
+if check_area_single(area_width, area_length) == True:
     vertiports = calculate_vertiports_single(area_width, area_length)
     flights_single = calculate_flights(vertiports, flight_time)
     
     print( "Number of Vertiports (Single Config): " + str(vertiports))
     print("Number of Flights Per Hour (Single Config): " + str(flights_single))
+
+if check_area_triple(area_width, area_length) == True:
 
     vertiports_triple = calculate_vertiports_triple(area_width, area_length)
     flights_triple = calculate_flights(vertiports_triple, flight_time_triple)
