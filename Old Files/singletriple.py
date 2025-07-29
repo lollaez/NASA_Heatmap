@@ -6,8 +6,8 @@ import math
 #Include different configurations
 #Include travel time between different parts
 
-area_width = 367 #ft
-area_length = 150 #ft
+area_width = 617 #ft
+area_length = 436 #ft
 flight_time = 10 #min
 #2 gates, one gate no wait time, second gate 4 mins due to sitting in gate
 flight_time_triple = 2 + 4/2 #min
@@ -27,7 +27,9 @@ def check_area_single(width, length):
 #width needs to be longer 
 def check_area_triple(width, length):
     if width >= VERTIPORT_SIDE and length >= VERTIPORT_SIDE:
-        if width >= ((VERTIPORT_SIDE * 2) + GATE_SIDE) or length >= ((VERTIPORT_SIDE * 2) + GATE_SIDE):
+        if (width >= length) and length >= ((VERTIPORT_SIDE * 2) + GATE_SIDE):
+            return(True)
+        elif (length > width) and width >= ((VERTIPORT_SIDE * 2) + GATE_SIDE):
             return(True)
         else:
             return(False)
@@ -92,6 +94,7 @@ if check_area_single(area_width, area_length) == True:
 else:
     print("Area Not Large Enough For Single")
 
+print("-----------------------------------------------------")
 
 if check_area_triple(area_width, area_length) == True:
     vertiports_triple = calculate_vertiports_triple(area_width, area_length)

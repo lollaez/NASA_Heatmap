@@ -5,8 +5,8 @@ VERTIPORT_SIDE = 48 * 3 #ft archer midnight - safety area = 3 times wingspan
 GATE_SIDE = 48 * 1.5 #ft wingspan 48ft <- change to larger porportion (just driving)
 TAKELAND_TIME = 2 #min
 
-areaWidth = 1000#ft
-areaLength = 500 #ft
+areaWidth = 617 #ft
+areaLength = 436 #ft
 
 gatesToPad = 0 #ratio of pads to each gate
 maybeDouble = False #double # of vertiports & gates
