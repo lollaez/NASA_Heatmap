@@ -5,8 +5,8 @@ VERTIPORT_SIDE = 48 * 3 #ft archer midnight - safety area = 3 times wingspan
 GATE_SIDE = 48 * 1.5 #ft wingspan 48ft <- change to larger porportion (just driving)
 TAKELAND_TIME = 2 #min
 
-areaWidth = 367#ft
-areaLength = 150 #ft
+areaWidth = 1000#ft
+areaLength = 500 #ft
 
 gatesToPad = 0 #ratio of pads to each gate
 maybeDouble = False #double # of vertiports & gates
@@ -49,7 +49,7 @@ def calculateWaitTime(gateToPadRatio):
         #for every 3 trips, 2 minutes is added
         waitTime += 2/3
     elif gateToPadRatio > 3:
-        #add 4 minutes for every gate after the 3rd gate
+        #add 4 minutes for every gate after the 3rd gate (4 gates has wait time of 6 mins)
         waitTime += (4 * (gateToPadRatio - 3)) + 2
     else:
         waitTime = 0
@@ -98,8 +98,6 @@ def calculateFlights(width, length, vertiports, gateToPadRatio):
     numFlightsEvery = []
     waitTime = 0
     waitTimeEvery = []
-    landTakeTime = 2
-    cycleTime = landTakeTime + waitTime
     
     if checkMaybeDouble(width, length) == True:
         Double = 2
@@ -116,7 +114,7 @@ def calculateFlights(width, length, vertiports, gateToPadRatio):
         vertiports = checkVertiports(width, length, gateToPadRatio) * Double
         vertiportsEvery.append(vertiports)
 
-        cycleTime = landTakeTime + waitTime
+        cycleTime = TAKELAND_TIME + waitTime
 
         numFlights = (60/cycleTime) * (vertiports * gateToPadRatio)
         numFlightsEvery.append(numFlights)
