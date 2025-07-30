@@ -1,7 +1,7 @@
 import math
 
-area_width = 121 #ft
-area_length = 502 #ft
+area_width = 559 #ft
+area_length = 104 #ft
 
 flight_time = 10 #min
 

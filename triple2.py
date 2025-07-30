@@ -8,8 +8,8 @@ TAXIWAY_SIDE = 48 * 1.5
 TAKELAND_TIME = 2 #min
 CYCLE_TIME = TAKELAND_TIME #min
 
-areaWidth = 607 #ft
-areaLength = 570 #ft
+areaWidth = 718 #ft
+areaLength = 183 #ft
 
 gatesToPad = 0 #ratio of pads to each gate
 maybeDouble = False #double # of vertiports & gates

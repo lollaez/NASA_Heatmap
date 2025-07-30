@@ -6,8 +6,8 @@ GATE_SIDE = 48 * 1.5 #ft wingspan 48ft <- change to larger porportion (just driv
 TAKELAND_TIME = 2 #min
 SAFETY_SIDE = 48
 
-areaWidth = 200 #ft
-areaLength = 402 #ft
+areaWidth = 718 #ft
+areaLength = 183 #ft
 
 gatesToPad = 0 #ratio of pads to each gate
 maybeDouble = False #double # of vertiports & gates
@@ -16,7 +16,6 @@ vertiports = 0
 numFlights = 0 #flights per hour 
 cycleTime = 0 #min
 
-#>>>>>check if long/wide enough for this config
 def check_area_linear(width, length):
     #safety needed means if needs extra area to fit
     safety_needed = False
@@ -77,15 +76,30 @@ def findLongerSide(width, length):
 #Check if short side long enough to double
 def checkMaybeDouble(width, length):
     if findLongerSide(width, length) == True:
-        if length >= (VERTIPORT_SIDE * 2 + GATE_SIDE * 2):
-            return(True)
+        #need to make sure the short side is long enough for one
+        if length >= (VERTIPORT_SIDE + GATE_SIDE):
+            if length >= (VERTIPORT_SIDE * 2 + GATE_SIDE * 2):
+                return(True)
+            else:
+                return(False)
         else:
-            return(False)
+            if width >= (VERTIPORT_SIDE * 2 + GATE_SIDE * 2):
+                return(True)
+            else:
+                return(False)
+
     else:
-        if width >= (VERTIPORT_SIDE * 2 + GATE_SIDE * 2):
-            return(True)
+        #need to make sure the short side is long enough for one
+        if width >= (VERTIPORT_SIDE + GATE_SIDE):
+            if width >= (VERTIPORT_SIDE * 2 + GATE_SIDE * 2):
+                return(True)
+            else:
+                return(False)
         else:
-            return(False)
+            if length >= (VERTIPORT_SIDE * 2 + GATE_SIDE * 2):
+                return(True)
+            else:
+                return(False)
 
 #find number of vertiports based on gateToPadRatio
 def checkVertiportsLinear(width, length):
