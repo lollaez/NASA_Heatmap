@@ -7,7 +7,7 @@ TAKELAND_TIME = 2 #min
 SAFETY_SIDE = 48
 
 areaWidth = 200 #ft
-areaLength = 502 #ft
+areaLength = 402 #ft
 
 gatesToPad = 0 #ratio of pads to each gate
 maybeDouble = False #double # of vertiports & gates
